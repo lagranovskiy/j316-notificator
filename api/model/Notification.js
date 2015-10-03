@@ -74,9 +74,14 @@ NotificationSchema.methods.timeToWait = function(){
     return moment(this.scheduledDate).fromNow();
 };
 
-
-NotificationSchema.static.getDueNotifications = function(){
-   this.find()
+/**
+ * Returns notifications that need to be processed
+ * @param callback
+ */
+NotificationSchema.static.getDueNotifications = function(callback){
+   this.find({scheduledDate: {"$gte":new Date()},isSent:false, isConfirmed:false}, function(err, data){
+       callback(err, data);
+   })
 };
 
 module.exports = mongoose.model('Notification', NotificationSchema);
