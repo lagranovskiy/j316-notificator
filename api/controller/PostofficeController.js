@@ -40,16 +40,6 @@ var PostofficeController = function () {
 
     var controller = {
 
-        getNextNotifications: function (req, res, next) {
-            var rq = _.assign(getFilterOptions(req.params), getFilterOptions(req.query));
-
-            PostofficeService.getNextNotifications(rq, function (err, result) {
-                if (err) {
-                    return next(err);
-                }
-                return res.send(result);
-            });
-        },
 
         /**
          * Returns the list of notifications

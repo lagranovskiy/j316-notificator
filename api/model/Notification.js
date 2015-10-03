@@ -66,8 +66,17 @@ NotificationSchema.path('scheduledDate').validate(function (value, done) {
     done(ok);
 }, 'Scheduling must be in future and not in past.');
 
+/**
+ * Calculates time untill the notification is going to be fired
+ * @returns {*}
+ */
 NotificationSchema.methods.timeToWait = function(){
     return moment(this.scheduledDate).fromNow();
+};
+
+
+NotificationSchema.static.getDueNotifications = function(){
+   this.find()
 };
 
 module.exports = mongoose.model('Notification', NotificationSchema);
