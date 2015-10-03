@@ -1,5 +1,6 @@
 var postofficeController = require('./controller/PostofficeController');
 var infoController = require('./controller/InfoController');
+var config = require('../config/config');
 
 module.exports = function (app) {
 
@@ -22,11 +23,7 @@ module.exports = function (app) {
         res.header("Access-Control-Allow-Credentials", true);
         next();
     });
-    app.get('/report', infoController.report);
-    app.get('/notify', postofficeController.notify);
-    app.get('/confirm/sms77', infoController.processSMS77Confirmation);
 
-    app.post('/notification', postofficeController.scheduleNotification);
 
     app.get('/notification', postofficeController.readNotifications);
     app.get('/notification/reference/:referenceId', postofficeController.readNotifications);
@@ -34,16 +31,45 @@ module.exports = function (app) {
     app.get('/notification/mobile/:mobile', postofficeController.readNotifications);
     app.get('/notification/email/:email', postofficeController.readNotifications);
 
-    app.delete('/notification', postofficeController.removeNotifications);
-    app.delete('/notification/reference/:referenceId', postofficeController.removeNotifications);
-    app.delete('/notification/category/:category', postofficeController.removeNotifications);
-    app.delete('/notification/mobile/:mobile', postofficeController.removeNotifications);
-    app.delete('/notification/email/:email', postofficeController.removeNotifications);
 
     app.get('/next', infoController.getNextNotifications);
     app.get('/next/reference/:referenceId', infoController.getNextNotifications);
     app.get('/next/category/:category', infoController.getNextNotifications);
     app.get('/next/mobile/:mobile', infoController.getNextNotifications);
     app.get('/next/email/:email', infoController.getNextNotifications);
+
+    app.get('/report', authorize, infoController.report);
+    app.get('/notify', authorize, postofficeController.notify);
+    app.get('/confirm/sms77', infoController.processSMS77Confirmation);
+
+    app.post('/notification', authorize, postofficeController.scheduleNotification);
+
+    app.delete('/notification', authorize, postofficeController.removeNotifications);
+    app.delete('/notification/reference/:referenceId', authorize, postofficeController.removeNotifications);
+    app.delete('/notification/category/:category', authorize, postofficeController.removeNotifications);
+    app.delete('/notification/mobile/:mobile', authorize, postofficeController.removeNotifications);
+    app.delete('/notification/email/:email', authorize, postofficeController.removeNotifications);
+
+
+    /**
+     * Test if the caller gave the apiToken in the apiToken query param.
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
+    function authorize(req, res, next) {
+
+        if (!req.query.apiToken) {
+            res.sendStatus(401);
+            return next('No API_TOKEN sent. Cannot process');
+        }
+        if (req.query.apiToken !== config.apiToken) {
+            res.sendStatus(401);
+            return next('Token API_TOKEN is invalid. Cannot process');
+        }
+
+        next();
+    }
 
 };

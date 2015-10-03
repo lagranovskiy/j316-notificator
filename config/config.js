@@ -3,7 +3,7 @@ var config = {
     host: process.env.HOST || 'localhost',
     httpPort: process.env.PORT || 8484,
     env: process.env.NODE_ENV || 'dev',
-    apiToken: process.env.API_TOKEN | 'local123',
+    apiToken: process.env.API_TOKEN || 'local123',
     mongoDB: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/j316notificator',
 
     notificationAPI: {
