@@ -1,4 +1,5 @@
 var postofficeController = require('./controller/PostofficeController');
+var infoController = require('./controller/InfoController');
 
 module.exports = function (app) {
 
@@ -30,7 +31,7 @@ module.exports = function (app) {
 
 
     app.post('/notification', postofficeController.scheduleNotification);
-
+    app.get('/notify', postofficeController.notify);
 
     app.delete('/notification', postofficeController.removeNotifications);
     app.delete('/notification/reference/:referenceId', postofficeController.removeNotifications);
@@ -38,10 +39,10 @@ module.exports = function (app) {
     app.delete('/notification/mobile/:mobile', postofficeController.removeNotifications);
     app.delete('/notification/email/:email', postofficeController.removeNotifications);
 
-    app.get('/next', postofficeController.getNextNotifications);
-    app.get('/next/reference/:referenceId', postofficeController.getNextNotifications);
-    app.get('/next/category/:category', postofficeController.getNextNotifications);
-    app.get('/next/mobile/:mobile', postofficeController.getNextNotifications);
-    app.get('/next/email/:email', postofficeController.getNextNotifications);
+    app.get('/next', infoController.getNextNotifications);
+    app.get('/next/reference/:referenceId', infoController.getNextNotifications);
+    app.get('/next/category/:category', infoController.getNextNotifications);
+    app.get('/next/mobile/:mobile', infoController.getNextNotifications);
+    app.get('/next/email/:email', infoController.getNextNotifications);
 
 };

@@ -1,5 +1,6 @@
 var PostofficeService = require('./../business/PostofficeService');
-var _=require('lodash');
+var PostmanService = require('./../business/PostmanService');
+var _ = require('lodash');
 
 /**
  * Returns the filtering options
@@ -22,10 +23,10 @@ function getFilterOptions(root) {
         rq.referenceId = root.referenceId;
     }
     if (root.isSent) {
-        rq.isSent = req.query.isSent;
+        rq.isSent = root.isSent;
     }
     if (root.isConfirmed) {
-        rq.isConfirmed = req.query.isConfirmed;
+        rq.isConfirmed = root.isConfirmed;
     }
     return rq;
 }
@@ -40,7 +41,21 @@ var PostofficeController = function () {
 
     var controller = {
 
-
+        /**
+         * Trigger notification process
+         *
+         * @param req
+         * @param res
+         * @param next
+         */
+        notify: function (req, res, next) {
+            PostmanService.processNotification(function (err, result) {
+                if (err) {
+                    return next(err);
+                }
+                return res.send(result);
+            });
+        },
         /**
          * Returns the list of notifications
          *
