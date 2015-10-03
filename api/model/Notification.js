@@ -40,6 +40,13 @@ var NotificationSchema = new Schema({
         type: String,
         required: true
     }],
+    sendingStarted:{
+        type: Date
+    },
+    status:{
+        type: String,
+        default: 'waiting'
+    },
     isSent: {
         type: Boolean,
         default: false
@@ -74,12 +81,18 @@ NotificationSchema.methods.timeToWait = function(){
     return moment(this.scheduledDate).fromNow();
 };
 
+
+NotificationSchema.methods.startProcess = function(){
+    this.sendingStarted = new Date();
+    this.status = 'sending in progress';
+};
+
 /**
  * Returns notifications that need to be processed
  * @param callback
  */
 NotificationSchema.static.getDueNotifications = function(callback){
-   this.find({scheduledDate: {"$gte":new Date()},isSent:false, isConfirmed:false}, function(err, data){
+   this.find({scheduledDate: {"$gte":new Date()},isSent:false, isConfirmed:false, sendingStarted:null}, function(err, data){
        callback(err, data);
    })
 };
