@@ -1,0 +1,12 @@
+J316 Benachrichtigung vom ${ datum }
+-----------------------------------------
+
+Insgesamt versendet: ${ sentCount }
+Insgesamt SMS versendet: ${ smsSentCount }
+Insgesamt Emails versendet: ${ emailSentCount }
+
+Kurzbericht Nachrichten
+${ notificationList }
+
+Liebe Grüße
+J316 Notificator

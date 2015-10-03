@@ -13,7 +13,7 @@ var NotificationSchema = new Schema({
         type: Date,
         required: true
     },
-    subject:{
+    subject: {
         type: String
     },
     message: {
@@ -61,7 +61,7 @@ var NotificationSchema = new Schema({
         type: Boolean,
         default: false
     },
-    reciept:{
+    reciept: {
         type: Schema.Types.Mixed
     }
 }, {collection: 'notification'});
@@ -115,22 +115,32 @@ NotificationSchema.methods.completeProcess = function (status, callback) {
 };
 
 /**
- * Mark Notification as confirmed
+ * Adds a recipe of sending
  */
-NotificationSchema.methods.confirmReciept = function (reciept ,callback) {
-    this.confirmedAt = new Date();
-    this.isConfirmed = true;
+NotificationSchema.methods.recipe = function (reciept, callback) {
     this.reciept = reciept;
     this.save(callback);
 };
 
 /**
+ * Adds confirmation info
+ */
+NotificationSchema.methods.confirm = function (confirmationData, callback) {
+    this.confirmedAt = new Date();
+    this.status = 'notification confirmed';
+    this.isConfirmed = true;
+    this.reciept = _.assign(confirmationData, this.reciept);
+    this.save(callback);
+};
+
+
+/**
  * Returns notifications that need to be processed
  * @param callback
  */
-NotificationSchema.static ('getDueNotifications',function (callback) {
+NotificationSchema.static('getDueNotifications', function (callback) {
     this.find({
-        scheduledDate: {"$gte": new Date()},
+        scheduledDate: {"$lte": new Date()},
         isSent: false,
         isConfirmed: false,
         sendingStarted: null

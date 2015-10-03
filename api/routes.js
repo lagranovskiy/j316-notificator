@@ -22,16 +22,17 @@ module.exports = function (app) {
         res.header("Access-Control-Allow-Credentials", true);
         next();
     });
+    app.get('/report', infoController.report);
+    app.get('/notify', postofficeController.notify);
+    app.get('/confirm/sms77', infoController.processSMS77Confirmation);
+
+    app.post('/notification', postofficeController.scheduleNotification);
 
     app.get('/notification', postofficeController.readNotifications);
     app.get('/notification/reference/:referenceId', postofficeController.readNotifications);
     app.get('/notification/category/:category', postofficeController.readNotifications);
     app.get('/notification/mobile/:mobile', postofficeController.readNotifications);
     app.get('/notification/email/:email', postofficeController.readNotifications);
-
-
-    app.post('/notification', postofficeController.scheduleNotification);
-    app.get('/notify', postofficeController.notify);
 
     app.delete('/notification', postofficeController.removeNotifications);
     app.delete('/notification/reference/:referenceId', postofficeController.removeNotifications);

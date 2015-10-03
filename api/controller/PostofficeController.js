@@ -1,6 +1,7 @@
 var PostofficeService = require('./../business/PostofficeService');
 var PostmanService = require('./../business/PostmanService');
 var _ = require('lodash');
+var config = require('../../config/config');
 
 /**
  * Returns the filtering options
@@ -41,6 +42,7 @@ var PostofficeController = function () {
 
     var controller = {
 
+
         /**
          * Trigger notification process
          *
@@ -49,6 +51,14 @@ var PostofficeController = function () {
          * @param next
          */
         notify: function (req, res, next) {
+
+            if (!req.query.apiToken) {
+                next('No API_TOKEN sent. Cannot process');
+            }
+            if (!req.query.apiToken === config.apiToken) {
+                next('Token API_TOKEN is invalid. Cannot process');
+            }
+
             PostmanService.processNotification(function (err, result) {
                 if (err) {
                     return next(err);

@@ -1,5 +1,4 @@
-var mongoose = require('mongoose'),
-    _ = require('lodash');
+var _ = require('lodash');
 var postmark = require("postmark");
 var config = require('../../config/config');
 
@@ -8,26 +7,33 @@ var PostmarkWorker = function () {
 
     return {
 
+
         /**
          * Send email notification
          *
          * @param rqData
          * @param callback
          */
-        sendEmail: function (notification, callback) {
+        sendEmail: function (emailRq, callback) {
 
             // Validate that we have all we need
-            notification.recipient.name;
-            notification.recipient.email;
-            notification.subject;
-            notification.message;
+            if (!emailRq.email) {
+                return callback('No Email- No notification');
+            }
+            if (!emailRq.subject) {
+                return callback('No subject- No notification');
+            }
+            if (!emailRq.message) {
+                return callback('No message- No notification');
+            }
+
 
             client.sendEmail({
                 From: config.notificationAPI.postmark.senderEmail,
-                To: notification.recipient.email,
-                Subject: notification.subject,
-                TextBody: notification.message,
-                Tag: _.first(notification.category)
+                To: emailRq.email,
+                Subject: emailRq.subject,
+                TextBody: emailRq.message,
+                Tag: emailRq.tag,
             }, function (error, success) {
                 if (error) {
                     console.error("Unable to send via postmark: " + error.message);
