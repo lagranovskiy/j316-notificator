@@ -22,8 +22,26 @@ module.exports = function (app) {
         next();
     });
 
+    app.get('/notification', postofficeController.readNotifications);
+    app.get('/notification/reference/:referenceId', postofficeController.readNotifications);
+    app.get('/notification/category/:category', postofficeController.readNotifications);
+    app.get('/notification/mobile/:mobile', postofficeController.readNotifications);
+    app.get('/notification/email/:email', postofficeController.readNotifications);
 
-    app.post('/notification/sms', postofficeController.addSMSNotification);
 
+    app.post('/notification', postofficeController.scheduleNotification);
+
+
+    app.delete('/notification', postofficeController.removeNotifications);
+    app.delete('/notification/reference/:referenceId', postofficeController.removeNotifications);
+    app.delete('/notification/category/:category', postofficeController.removeNotifications);
+    app.delete('/notification/mobile/:mobile', postofficeController.removeNotifications);
+    app.delete('/notification/email/:email', postofficeController.removeNotifications);
+
+    app.get('/next', postofficeController.getNextNotifications);
+    app.get('/next/reference/:referenceId', postofficeController.getNextNotifications);
+    app.get('/next/category/:category', postofficeController.getNextNotifications);
+    app.get('/next/mobile/:mobile', postofficeController.getNextNotifications);
+    app.get('/next/email/:email', postofficeController.getNextNotifications);
 
 };
