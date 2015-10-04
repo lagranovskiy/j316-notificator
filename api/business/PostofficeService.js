@@ -7,26 +7,6 @@ var
     };
 
 
-/**
- * Returns the list with scheduling of not sent notifications
- * @param callback
- */
-PostOffice.prototype.getNextNotifications = function (rqData, callback) {
-    var rqData = _.assign(rqData, {isSent: false});
-    Notification.find(rqData, function (err, data) {
-        if (err) {
-            return callback(err);
-        }
-        var infoArray = [];
-        _.forEach(data, function (notification) {
-            infoArray.push({
-                notification: notification,
-                in: notification.timeToWait()
-            });
-        })
-        callback(null, infoArray);
-    })
-};
 
 /**
  * Removes notifications that are not sent already

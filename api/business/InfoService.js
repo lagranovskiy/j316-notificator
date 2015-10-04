@@ -154,7 +154,7 @@ InfoOffice.prototype.getNextNotifications = function (rqData, callback) {
                 notification: notification,
                 in: notification.timeToWait()
             });
-        })
+        });
         callback(null, infoArray);
     })
 };
@@ -168,7 +168,7 @@ InfoOffice.prototype.statusUpdateSMS77 = function (msgId, status, callback) {
         return callback('Cannot update status null');
     }
 
-    Notification.findOne({'reciept.messageId': msgId}, function (err, notification) {
+    Notification.findOne({'reciept.messageId': msgId, 'isConfirmed': false}, function (err, notification) {
         if (err) {
             console.error('Cannot find notification with msg_id ' + msgId);
             return callback(err);
