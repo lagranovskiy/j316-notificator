@@ -33,7 +33,7 @@ var PostmarkWorker = function () {
                 To: emailRq.email,
                 Subject: emailRq.subject,
                 TextBody: emailRq.message,
-                Tag: emailRq.tag,
+                Tag: emailRq.tag
             }, function (error, success) {
                 if (error) {
                     console.error("Unable to send via postmark: " + error.message);

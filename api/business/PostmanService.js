@@ -93,14 +93,19 @@ PostmanOffice.prototype.processNotification = function (callback) {
                         console.error(err);
                         return done(err);
                     }
-                    _.forEach(completed, function (completedNotification) {
+                    async.each(completed, function (completedNotification, nextConfirmationPlease) {
                         completedNotification.completeProcess('notification processed', function (err, notif) {
+                            if (err) {
+                                console.error('Notification Confirmation failed ', err);
+                                return nextConfirmationPlease(err);
+                            }
+                            nextConfirmationPlease(null, notif);
                             console.log('Notification Execution completed');
                         });
+                    }, function (err) {
+                        done(err);
                     });
 
-
-                    done(null);
                 });
 
             }
@@ -177,8 +182,13 @@ PostmanOffice.prototype.sendEmail = function (notification, callback) {
             return callback(err);
         }
         console.info('Email Message was sent successfully: ', notification.recipient.name);
-        notification.recipe(result);
-        return callback(null, notification);
+        notification.recipe(result, function (err, recipedNotification) {
+            if (err) {
+                console.error(err);
+                return callback(err);
+            }
+            callback(null, recipedNotification);
+        });
     });
 };
 
