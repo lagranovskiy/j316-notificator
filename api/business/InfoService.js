@@ -27,7 +27,6 @@ InfoOffice.prototype.createReport = function (callback) {
             }
             var reportEndDate = moment();
             Notification.find({
-                isConfirmed: true,
                 isSent: true,
                 sendingStarted: {'$gte': reportStartDate, '$lte': reportEndDate}
             }, next);
