@@ -100,6 +100,10 @@ NotificationSchema.methods.timeToWait = function () {
  * Mark Notification as in progress
  */
 NotificationSchema.methods.startProcess = function (callback) {
+    if(!callback){
+        console.error('No Callback.. undefined output!!');
+        return
+    }
     this.sendingStarted = new Date();
     this.status = 'sending in progress';
     this.save(callback);
@@ -109,6 +113,10 @@ NotificationSchema.methods.startProcess = function (callback) {
  * Mark Notification as completed
  */
 NotificationSchema.methods.completeProcess = function (status, callback) {
+    if(!callback){
+        console.error('No Callback.. undefined output!!');
+        return
+    }
     this.status = status;
     this.isSent = true;
     this.save(callback);
@@ -118,6 +126,10 @@ NotificationSchema.methods.completeProcess = function (status, callback) {
  * Adds a recipe of sending
  */
 NotificationSchema.methods.recipe = function (reciept, callback) {
+    if(!callback){
+        console.error('No Callback.. undefined output!!');
+        return
+    }
     this.reciept = reciept;
     this.save(callback);
 };
@@ -126,6 +138,11 @@ NotificationSchema.methods.recipe = function (reciept, callback) {
  * Adds confirmation info
  */
 NotificationSchema.methods.confirm = function (confirmationData, callback) {
+    if(!callback){
+        console.error('No Callback.. undefined output!!');
+        return
+    }
+
     this.confirmedAt = new Date();
     this.status = 'notification confirmed';
     this.isConfirmed = true;

@@ -14,60 +14,106 @@ var PostmanOffice = function () {
  */
 PostmanOffice.prototype.processNotification = function (callback) {
 
-    Notification.getDueNotifications(function (err, data) {
-            if (err) {
-                return callback(err);
-            }
-            var notificationReciept = {
-                sms: 0,
-                email: 0
-            };
-            var tasks = [];
 
-            _.forEach(data, function (notification) {
-                notification.startProcess();
-
-                if (notification.notificationType.indexOf('sms') != -1) {
-                    tasks.push(function (done) {
-                        PostmanOffice.prototype.sendSMS(notification, done);
+    async.waterfall([
+            function (done) {
+                Notification.getDueNotifications(function (err, data) {
+                        if (err) {
+                            return callback(err);
+                        }
+                        done(null, data);
+                    }
+                )
+            },
+            function (notificationEntries, preparationStepDone) {
+                if (notificationEntries.length == 0) {
+                    console.info('No scheduled tasks to do.. idle...');
+                    return callback(null, {
+                        timestamp: new Date().getTime(),
+                        startedNotifications: 0,
+                        status: 'nothing to do..'
                     });
-                    notificationReciept.sms++;
-
                 }
 
-                if (notification.notificationType.indexOf('email') != -1) {
-                    tasks.push(function (done) {
-                        PostmanOffice.prototype.sendEmail(notification, done);
+                var notificationReciept = {
+                    sms: 0,
+                    email: 0
+                };
+
+                var tasks = [];
+
+                async.each(notificationEntries, function (notification, nextNotificationPlease) {
+                    async.waterfall([
+                        function (next) {
+                            notification.startProcess(function (err, notification) {
+                                next(err, notification);
+                            });
+                        },
+                        function (startedNotification, next) {
+                            if (startedNotification.notificationType.indexOf('sms') != -1) {
+                                tasks.push(function (done) {
+                                    PostmanOffice.prototype.sendSMS(startedNotification, done);
+                                });
+                                notificationReciept.sms++;
+
+                            }
+
+                            if (startedNotification.notificationType.indexOf('email') != -1) {
+                                tasks.push(function (done) {
+                                    PostmanOffice.prototype.sendEmail(startedNotification, done);
+                                });
+                                notificationReciept.email++;
+                            }
+
+                            next(null);
+                        }
+
+                    ], function (err) {
+                        if (err) {
+                            console.error(err);
+                            return nextNotificationPlease(err);
+                        }
+                        nextNotificationPlease(null);
+
                     });
-                    notificationReciept.email++;
-                }
+                }, function (err) {
+                    callback(null, {
+                        timestamp: new Date().getTime(),
+                        startedNotifications: notificationEntries.length,
+                        started: notificationReciept
+                    });
 
-            });
-
-
-            callback(null, {
-                timestamp: new Date().getTime(),
-                startedNotifications: data.length,
-                started: notificationReciept
-            });
-
-            async.parallel(tasks, function (err, completed) {
-                if (err) {
-                    return callback(err);
-                }
-                _.forEach(completed, function (notification) {
-                    notification.completeProcess('notification processed');
+                    preparationStepDone(err, tasks);
                 });
 
-                console.log('Execution completed');
+            },
+            function (tasks, done) {
+                async.parallel(tasks, function (err, completed) {
+                    if (err) {
+                        console.error(err);
+                        return done(err);
+                    }
+                    _.forEach(completed, function (completedNotification) {
+                        completedNotification.completeProcess('notification processed', function (err, notif) {
+                            console.log('Notification Execution completed');
+                        });
+                    });
 
 
-            });
+                    done(null);
+                });
 
-
+            }
+        ],
+        function (err) {
+            if (err) {
+                console.error(err);
+                return
+            }
+            console.log('All Notification Execution completed');
         }
     )
-    ;
+
 
 };
 
@@ -87,8 +133,13 @@ PostmanOffice.prototype.sendSMS = function (notification, callback) {
             return callback(err);
         }
         console.info('SMS Message was sent successfully: ', notification.recipient.name);
-        notification.recipe(result);
-        return callback(null, notification);
+        notification.recipe(result, function (err, recipedNotification) {
+            if (err) {
+                console.error(err);
+                return callback(err);
+            }
+            callback(null, recipedNotification);
+        });
     });
 };
 
