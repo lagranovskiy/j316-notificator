@@ -83,8 +83,13 @@ NotificationSchema.path('notificationType').validate(function (value, done) {
 }, 'Email Subject is mandatory by Email notification');
 
 NotificationSchema.path('scheduledDate').validate(function (value, done) {
-    var ok = moment(this.scheduledDate).isAfter(new Date());
-    done(ok);
+    if(this.isNew){
+        var ok = moment(this.scheduledDate).isAfter(new Date());
+        done(ok);
+    } else{
+        done(true);
+    }
+
 }, 'Scheduling must be in future and not in past.');
 
 /**
