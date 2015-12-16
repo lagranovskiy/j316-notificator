@@ -45,7 +45,7 @@ InfoOffice.prototype.createReport = function (callback) {
 //        calculate and replace variables
         function (notificationArray, templateString, next) {
 
-            if (!notificationArray || notificationArray.length && notificationArray.length == 0) {
+            if (!notificationArray || notificationArray.length == 0) {
                 return next('No entries for report');
             }
 
