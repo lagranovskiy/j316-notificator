@@ -4,7 +4,7 @@ var config = {
     httpPort: process.env.PORT || 8484,
     env: process.env.NODE_ENV || 'dev',
     apiToken: process.env.API_TOKEN || 'local123',
-    mongoDB: process.env.MONGOLAB_URI || 'mongodb://localhost:27017/j316notificator',
+    mongoDB: process.env.MONGOLAB_URI || 'mongodb://heroku_0jlkr6pr:q4agk1edvvu7lc0hcf18je8oo0@ds027744.mongolab.com:27744/heroku_0jlkr6pr',
 
     notificationAPI: {
         postmark: {

@@ -83,10 +83,10 @@ NotificationSchema.path('notificationType').validate(function (value, done) {
 }, 'Email Subject is mandatory by Email notification');
 
 NotificationSchema.path('scheduledDate').validate(function (value, done) {
-    if(this.isNew){
+    if (this.isNew) {
         var ok = moment(this.scheduledDate).isAfter(new Date());
         done(ok);
-    } else{
+    } else {
         done(true);
     }
 
@@ -104,8 +104,18 @@ NotificationSchema.methods.timeToWait = function () {
 /**
  * Mark Notification as in progress
  */
+NotificationSchema.methods.failed = function (err, callback) {
+    this.sendingStarted = null;
+    this.status = 'sending failed.. retry';
+    this.save(callback);
+};
+
+
+/**
+ * Mark Notification as in progress
+ */
 NotificationSchema.methods.startProcess = function (callback) {
-    if(!callback){
+    if (!callback) {
         console.error('No Callback.. undefined output!!');
         return
     }
@@ -118,7 +128,7 @@ NotificationSchema.methods.startProcess = function (callback) {
  * Mark Notification as completed
  */
 NotificationSchema.methods.completeProcess = function (status, callback) {
-    if(!callback){
+    if (!callback) {
         console.error('No Callback.. undefined output!!');
         return
     }
@@ -131,7 +141,7 @@ NotificationSchema.methods.completeProcess = function (status, callback) {
  * Adds a recipe of sending
  */
 NotificationSchema.methods.recipe = function (reciept, callback) {
-    if(!callback){
+    if (!callback) {
         console.error('No Callback.. undefined output!!');
         return
     }
@@ -143,7 +153,7 @@ NotificationSchema.methods.recipe = function (reciept, callback) {
  * Adds confirmation info
  */
 NotificationSchema.methods.confirm = function (confirmationData, callback) {
-    if(!callback){
+    if (!callback) {
         console.error('No Callback.. undefined output!!');
         return
     }

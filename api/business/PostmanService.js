@@ -70,6 +70,7 @@ PostmanOffice.prototype.processNotification = function (callback) {
 
                     ], function (err) {
                         if (err) {
+                            notification.failed();
                             console.error(err);
                             return nextNotificationPlease(err);
                         }
