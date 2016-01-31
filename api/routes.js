@@ -24,6 +24,7 @@ module.exports = function (app) {
         next();
     });
 
+    app.get('/alive', isAlive);
 
     app.get('/notification', postofficeController.readNotifications);
     app.get('/notification/reference/:referenceId', postofficeController.readNotifications);
@@ -70,6 +71,17 @@ module.exports = function (app) {
         }
 
         next();
+    }
+
+    /**
+     * Evaluates if application is alive
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
+    function isAlive(req, res, next) {
+        res.send({timestamp: new Date()});
     }
 
 };
