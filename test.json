@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "api-project-244348167483",
+  "private_key_id": "d2faba58d1f4fcc25ae30e5cb3d8da82d2fea202",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCvZLaMzwxComXE\nBGijT16iKmRH/hbwwl6AlXvKDAzmCUuZuWq6xKb8p7GbLke7OjIzO7/nuVc2ggaj\n8YbOKfDGt8jQkavuy4Wtpyx2s0MqfzSeqneXe9OgcMi0jTVa3MCeAXvO4TA8AYQw\nloZ6hO8mGT6a8xFu+Pg7S/S6WmkybsAqPgYS8LqrxFPInWKuBfhU2LQHD81//eW1\n8Gqkp90QcHNxIcM/QGlCF9Z0A6U4rY/5emjTWoQ7UmZKf7q/Wt5qtIQDiZMybF9o\nWzskuNflOoxrvSqAbkUZb8HuNI47WnG6/Mptf+Wp0KH2PEzJJmtNHFEsjK/RT8M6\n/K2Gk3bpAgMBAAECggEAMDXAr8ehmRdGXbDQikMgwfZhBiDjcV4b18A+/HR/fyOC\n8kgy/A9dzwjRGtSHxwDiF48O2sTpIgRvitSytyx0EEsoGZxQ5BxxLCBNansvtRiu\nAAbfRHY231zg7i/6QHV5RHUn8N+ZAIVyLmDRqg+sJI6/1JuHaTdqE/J23FpJnCC6\n7MGsOSm0jQ/DP4qnqqyue/Ssf/Qn3+/JSAcyRsA8pkxILiiFGOThQ4pkZe5odeY9\ny6slKi2EBUx4UOrsomY1FZYdI7bm0avzwYATVs5TwUZ2dHMmB58SvXckhitXjMCT\ng5tUUxv8Yv27P6zVOy8tkYqmuLqVPAUyMwHyDCIOeQKBgQD67xJlkzKarLY2o+63\n6kGlo+JWrEl8rEDsVNmNsWlPSumfvu0DmvZVBnc/Im6jP0LBp3J4Ji0QfL5y/fEV\nB85BzrGD4sB9Hv5dZb/vgkmJcopUaWsGhEMjBoJtmYDGEmi/RdNCJ2xBMTzdOjqm\n95rmelji7X1gisyAIrkjUykTCwKBgQCy7zeqAjPE5E4lHIbF+XOk2ecJ3ogEMvx7\nErGXCC8vkoYUxup92jT1gJz7eXJ4EJJJ9Xl5vRWaW9w0mAeBZyFo+A39WFm/lB13\nkqAAap45R20soI28Qs+NGtSEUUsig2HZDXcu4RZ2o+traVMfJzuHFjwi9uB/pEWc\nZRZcnDxWWwKBgQDl764G36QOMdbiKMN1SbYP5yVe0I6iLGFtba7QdNIP85AybkxW\n8mdor/0TICULd8tfEmYFDM5cfkIxstp3r+hjSthFBsHlpUHmKXeAK/3gcdGp2dNV\nbFrsvGlFrtReK75KDtyvkNpUvp6MBXB7UQZizZenkYFCtsz/WVIWuXw40wKBgADb\neI7N9+WHmoA/BL5KFa3ChYLcmBY9EEyeqE8q8N7vesj6swDrXLmYZigmStAcdDb6\ngBx/NW1J52IxIEgUcGqKVbbTB4sNcJ60CyQ1XpCzsOg31LYEM+5fJImFwjBmJL/f\neqS022CyJFydYpKRo41gI+We/TBfXx4Ctfq3nOplAoGBAOcfEGUsJHNJD3Yh/tqQ\nY2r232v9fWt7FL3B/0YVSmfTJkzSLtXg8XiGK0gPgyjSGVFKfCfaqM7IRUpiIBPx\nCIMXV+Q4gyoU6rZTcLY2aV+rj9uUxhxB74UAn2DMyis+rJT2uufOffoIZ8R2UiBL\nKbFk5SK3dUDTsJ0wg4GLmrxM\n-----END PRIVATE KEY-----\n",
+  "client_email": "kalender-benachrichtigung@api-project-244348167483.iam.gserviceaccount.com",
+  "client_id": "117583945335527507644",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kalender-benachrichtigung%40api-project-244348167483.iam.gserviceaccount.com"
+}

@@ -7,6 +7,9 @@ var config = {
     mongoDB: process.env.MONGOLAB_URI || 'mongodb://qwert',
 
     notificationAPI: {
+        google:{
+           accessJSON:  process.env.GOOGLE_ACCESS_JSON || '{}'
+        },
         postmark: {
             apiToken: process.env.POSTMARK_API_TOKEN || '327af72a-ad49-40ab-8c59-0421bbc8e307',
             inboundAddress: process.env.POSTMARK_INBOUND_ADDRESS || 'fff5169bbe1fa1d5d9e9702c83084d99@inbound.postmarkapp.com',
@@ -22,8 +25,8 @@ var config = {
         }
     },
     report: {
-        sendMails: process.env.REPORT_SEND || 'true', // ignored by cheapest,
-        reportRecipient: process.env.REPORT_RECIPIENT || 'info@agranovskiy.de', // ignored by cheapest
+        sendMails: process.env.REPORT_SEND || 'true',
+        reportRecipient: process.env.REPORT_RECIPIENT || 'info@agranovskiy.de',
         reportDays: process.env.REPORT_DAYS || '1'
     },
     init: function () {
