@@ -1,7 +1,7 @@
 {
-  "name": "node-js-getting-started",
+  "name": "j316-notification",
   "version": "0.1.5",
-  "description": "A sample Node.js app using Express 4",
+  "description": "Notification module to sende planned sms etc",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
