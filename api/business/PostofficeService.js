@@ -7,7 +7,6 @@ var
     };
 
 
-
 /**
  * Removes notifications that are not sent already
  *
@@ -15,10 +14,10 @@ var
  * @param callback
  */
 PostOffice.prototype.removeNotifications = function (rmParams, callback) {
-    // Removing of processed entries is not allowed
-    rmParams.isSent = false;
-    rmParams.isConfirmed = false;
-
+    /*// Removing of processed entries is not allowed
+     rmParams.isSent = false;
+     rmParams.isConfirmed = false;
+     */
     Notification.remove(rmParams, function (err, notificationList) {
         callback(err, notificationList);
     });
