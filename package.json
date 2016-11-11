@@ -1,6 +1,6 @@
 {
-  "name": "j316-notification",
-  "version": "0.1.5",
+  "name": "j316-notificator",
+  "version": "0.1.6",
   "description": "Notification module to sende planned sms etc",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "https://github.com/lagranovskiy/j316-notificator"
   },
   "keywords": [
     "node",
