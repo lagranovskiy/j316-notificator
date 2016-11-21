@@ -3,6 +3,7 @@ var mongoose = require('mongoose'),
     Notification = mongoose.model('Notification');
 var async = require('neo-async');
 
+var GoogleCalWorker = require('../workers/GoogleCalWorker');
 var PostmarkWorker = require('../workers/PostmarkWorker');
 var SMS77Worker = require('../workers/SMS77Worker');
 
@@ -37,7 +38,8 @@ PostmanOffice.prototype.processNotification = function (callback) {
 
                 var notificationReciept = {
                     sms: 0,
-                    email: 0
+                    email: 0,
+                    cal: 0
                 };
 
                 var tasks = [];
@@ -61,6 +63,13 @@ PostmanOffice.prototype.processNotification = function (callback) {
                             if (startedNotification.notificationType.indexOf('email') != -1) {
                                 tasks.push(function (done) {
                                     PostmanOffice.prototype.sendEmail(startedNotification, done);
+                                });
+                                notificationReciept.email++;
+                            }
+
+                            if (startedNotification.notificationType.indexOf('cal') != -1) {
+                                tasks.push(function (done) {
+                                    PostmanOffice.prototype.sendCal(startedNotification, done);
                                 });
                                 notificationReciept.email++;
                             }
@@ -191,6 +200,58 @@ PostmanOffice.prototype.sendEmail = function (notification, callback) {
             callback(null, recipedNotification);
         });
     });
+};
+
+
+/**
+ * Send Calender Event to the worker and process response
+ *
+ * @param notification
+ * @param callback
+ */
+PostmanOffice.prototype.sendCal = function (notification, callback) {
+    console.info('Sending Calender Entry to ' + notification.recipient.name);
+
+    // Validate that we have all we need
+    if (!notification.recipient.email) {
+        return callback('No Email- No notification');
+    }
+    if (!notification.subject) {
+        return callback('No event subject- No notification');
+    }
+    if (!notification.message) {
+        return callback('No event  message- No notification');
+    }
+
+    var calRq = {
+        action: "add",
+        calender: notification.subject,
+        eventName: notification.message,
+        eventDescription: notification.subject,
+        startDate: notification.eventData.eventStart,
+        endDate: notification.eventData.eventEnd,
+        guests: notification.recipient.email,
+        reminders: [1, 3],
+        location: notification.eventData.location
+    };
+
+    GoogleCalWorker.createCalenderEvent(calRqfunction, function (err, result) {
+            if (err) {
+                console.error(err);
+                notification.recipe('error' + err);
+                return callback(err);
+            }
+            console.info('Calender Event was sent successfully: ', notification.recipient.name + ' :: ' + result);
+
+            notification.recipe(result, function (err, recipedNotification) {
+                if (err) {
+                    console.error(err);
+                    return callback(err);
+                }
+                callback(null, recipedNotification);
+            });
+        }
+    )
 };
 
 

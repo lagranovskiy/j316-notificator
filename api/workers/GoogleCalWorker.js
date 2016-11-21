@@ -1,24 +1,26 @@
 var _ = require('lodash');
-var postmark = require("postmark");
 var config = require('../../config/config');
-
-var google = require('googleapis');
-var googleAuth = require('google-auth-library');
-
-var googleAuthInfo = JSON.parse(config.notificationAPI.google.accessJSON);
-var jwtClient = new googleAuth.JWT();
-jwtClient.fromJSON(googleAuthInfo, function () {
-    console.info('Authentication google prepared')
-});
+var requestify = require('requestify');
 
 var GoogleCalWorker = function () {
-    var client = new postmark.Client(config.notificationAPI.postmark.apiToken);
 
     return {
 
 
         /**
          * Creates a new Calender Event
+         *
+         *  {
+                action: "add",
+                calender: "Büchertisch 1",
+                eventName: "Gruppe 2 - Büchertisch",
+                eventDescription: "Lieber Bruder du bist dran",
+                startDate: "2017-01-10T10:00:00.000Z",
+                endDate: "2017-01-10T12:00:00.000Z",
+                guests: "test@agranovskiy.de",
+                reminders: [1, 3],
+                location: "Mainzer Landstrasse 87, Frankfurt am Main"
+            }
          *
          * @param evRq
          * @param callback
@@ -29,27 +31,30 @@ var GoogleCalWorker = function () {
             if (!emailRq.email) {
                 return callback('No Email- No notification');
             }
-            if (!emailRq.subject) {
-                return callback('No subject- No notification');
+            if (!emailRq.calenderName) {
+                return callback('No calenderName - No notification');
             }
-            if (!emailRq.message) {
-                return callback('No message- No notification');
+            if (!emailRq.eventName) {
+                return callback('No eventName- No notification');
             }
 
-
-            client.sendEmail({
-                From: config.notificationAPI.postmark.senderEmail,
-                To: emailRq.email,
-                Subject: emailRq.subject,
-                TextBody: emailRq.message,
-                Tag: emailRq.tag
-            }, function (error, success) {
-                if (error) {
-                    console.error("Unable to send via postmark: " + error.message);
-                    return callback(error);
-                }
-                callback(null, success);
-            });
+            requestify.post(config.notificationAPI.google.calAPI, evRq)
+                .then(function (response) {
+                    var res = response.getBody();
+                    if (response.getCode() == 200) {
+                        console.info('Calender entry created successfully');
+                        return callback(null, {success: true, result: res});
+                    } else {
+                        return callback(null, {
+                            success: false,
+                            errorMessage: response.getCode()
+                        });
+                    }
+                })
+                .fail(function (response) {
+                    console.error('Cannot communicate with google calender api: ' + JSON.stringify(response));
+                    return callback(null, {success: false, errorMessage: response.message});
+                });
         }
 
     };

@@ -7,8 +7,8 @@ var config = {
     mongoDB: process.env.MONGOLAB_URI || 'mongodb://qwert',
 
     notificationAPI: {
-        google:{
-           accessJSON:  process.env.GOOGLE_ACCESS_JSON || '{}'
+        google: {
+            calAPI: process.env.GOOGLE_CAL_API || 'https://script.google.com/macros/s/AKfycby2iyq6v2_ztFPOf2tzoHjWPTlKDASGNd_kuWYN3FJOYDg4WyvT/exec'
         },
         postmark: {
             apiToken: process.env.POSTMARK_API_TOKEN || '327af72a-ad49-40ab-8c59-0421bbc8e307',

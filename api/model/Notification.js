@@ -33,6 +33,20 @@ var NotificationSchema = new Schema({
             type: String
         }
     },
+    eventData: {
+        location: {
+            type: String,
+            required: false
+        },
+        eventStart: {
+            type: Date,
+            required: true
+        },
+        eventEnd: {
+            type: Date,
+            required: true
+        }
+    },
     notificationType: [{
         type: String
     }],
