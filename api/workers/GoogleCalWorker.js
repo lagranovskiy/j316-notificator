@@ -38,7 +38,7 @@ var GoogleCalWorker = function () {
                 return callback('No eventName- No notification');
             }
 
-            requestify.post(config.notificationAPI.google.calAPI, evRq)
+            requestify.post(config.notificationAPI.google.calAPI, JSON.stringify(evRq), {})
                 .then(function (response) {
                     var res = response.getBody();
                     if (response.getCode() == 200) {
