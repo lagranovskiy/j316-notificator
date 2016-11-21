@@ -241,7 +241,7 @@ PostmanOffice.prototype.sendCal = function (notification, callback) {
                 notification.recipe('error' + err);
                 return callback(err);
             }
-            console.info('Calender Event was sent successfully: ', notification.recipient.name + ' :: ' + result);
+            console.info('Calender Event was sent successfully: ', notification.recipient.name + ' :: ' + JSON.stringify(result));
 
             notification.recipe(result, function (err, recipedNotification) {
                 if (err) {
