@@ -71,7 +71,7 @@ PostmanOffice.prototype.processNotification = function (callback) {
                                 tasks.push(function (done) {
                                     PostmanOffice.prototype.sendCal(startedNotification, done);
                                 });
-                                notificationReciept.email++;
+                                notificationReciept.cal++;
                             }
 
                             next(null);

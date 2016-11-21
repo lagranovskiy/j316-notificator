@@ -28,13 +28,13 @@ var GoogleCalWorker = function () {
         createCalenderEvent: function (evRq, callback) {
 
             // Validate that we have all we need
-            if (!emailRq.email) {
+            if (!evRq.email) {
                 return callback('No Email- No notification');
             }
-            if (!emailRq.calenderName) {
+            if (!evRq.calender) {
                 return callback('No calenderName - No notification');
             }
-            if (!emailRq.eventName) {
+            if (!evRq.eventName) {
                 return callback('No eventName- No notification');
             }
 
