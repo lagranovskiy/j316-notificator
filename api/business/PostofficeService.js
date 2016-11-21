@@ -46,7 +46,9 @@ PostOffice.prototype.scheduleNotification = function (smsNotificationData, callb
 
     var validation = notification.validateSync();
     if (validation) {
-        console.info(notification.validateSync().toString());
+        var valData = notification.validateSync().toString()
+        console.info(valData);
+        return callback(valData)
     } else {
         console.info('Notification ok.');
 
