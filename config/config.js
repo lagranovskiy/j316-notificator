@@ -4,7 +4,7 @@ var config = {
     httpPort: process.env.PORT || 8484,
     env: process.env.NODE_ENV || 'dev',
     apiToken: process.env.API_TOKEN || 'local123',
-    mongoDB: process.env.MONGOLAB_URI || 'mongodb://qwert',
+    mongoDB: process.env.MONGOLAB_URI || 'mongodb://heroku_x73vt8br:ha7mpcamould7ov910p8c6h75d@ds013545.mlab.com:13545/heroku_x73vt8br',
 
     notificationAPI: {
         google: {

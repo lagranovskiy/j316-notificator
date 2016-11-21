@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var config = require('../../config/config');
-var requestify = require('requestify');
+var request = require('request');
 
 var GoogleCalWorker = function () {
 
@@ -39,27 +39,32 @@ var GoogleCalWorker = function () {
             }
 
 
-            requestify.post(config.notificationAPI.google.calAPI, JSON.stringify(evRq), {})
-                .then(function (response) {
-                    var res = response.getBody();
-                    if (response.getCode() == 200) {
-                        console.info('Calender entry created successfully');
-                        return callback(null, {success: true, result: res});
-                    } else {
-                        return callback(null, {
-                            success: false,
-                            errorMessage: response.getCode()
-                        });
-                    }
-                })
-                .fail(function (response) {
+            var options = {
+                uri: config.notificationAPI.google.calAPI,
+                method: 'POST',
+                followAllRedirects: true,
+                json: evRq
+            };
+
+            request(options, function (error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    console.info('Calender entry created successfully');
+                    return callback(null, {success: true, result: body});
+                } else if (!error) {
+                    return callback(null, {
+                        success: false,
+                        errorMessage: response
+                    });
+                } else {
                     console.error('Cannot communicate with google calender api: ' + JSON.stringify(response));
-                    return callback(null, {success: false, errorMessage: response.message});
-                });
+                    return callback(null, {
+                        success: false,
+                        errorMessage: error
+                    });
+                }
+            });
         }
-
     };
-
 };
 
 module.exports = new GoogleCalWorker();
