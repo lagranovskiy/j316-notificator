@@ -40,11 +40,11 @@ var NotificationSchema = new Schema({
         },
         eventStart: {
             type: Date,
-            required: true
+            required: false
         },
         eventEnd: {
             type: Date,
-            required: true
+            required: false
         }
     },
     notificationType: [{
