@@ -235,7 +235,7 @@ PostmanOffice.prototype.sendCal = function (notification, callback) {
         location: notification.eventData.location
     };
 
-    GoogleCalWorker.createCalenderEvent(calRqfunction, function (err, result) {
+    GoogleCalWorker.createCalenderEvent(calRq, function (err, result) {
             if (err) {
                 console.error(err);
                 notification.recipe('error' + err);
