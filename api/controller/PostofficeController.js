@@ -77,13 +77,13 @@ var PostofficeController = function () {
         },
 
         /**
-         * Returns the list of notifications
+         * removes the list of notifications selected by one of the possible categories
          *
          * @param req
          * @param res
          * @param next
          */
-        removeNotifications: function (req, res, next) {
+        removeIndexedNotifications: function (req, res, next) {
 
             var rq = getFilterOptions(req.params);
 

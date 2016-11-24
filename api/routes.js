@@ -45,11 +45,11 @@ module.exports = function (app) {
 
     app.post('/notification', authorize, postofficeController.scheduleNotification);
 
-    app.delete('/notification', authorize, postofficeController.removeNotifications);
-    app.delete('/notification/reference/:referenceId', authorize, postofficeController.removeNotifications);
-    app.delete('/notification/category/:category', authorize, postofficeController.removeNotifications);
-    app.delete('/notification/mobile/:mobile', authorize, postofficeController.removeNotifications);
-    app.delete('/notification/email/:email', authorize, postofficeController.removeNotifications);
+    app.delete('/notification/reference/:referenceId/category/:category', authorize, postofficeController.removeIndexedNotifications);
+    app.delete('/notification/reference/:referenceId', authorize, postofficeController.removeIndexedNotifications);
+    app.delete('/notification/category/:category', authorize, postofficeController.removeIndexedNotifications);
+    app.delete('/notification/mobile/:mobile', authorize, postofficeController.removeIndexedNotifications);
+    app.delete('/notification/email/:email', authorize, postofficeController.removeIndexedNotifications);
 
 
     /**
