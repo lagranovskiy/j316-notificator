@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var postmark = require("postmark");
-var async = require('async');
+var async = require('neo-async');
 var config = require('../../config/config');
 
 var PostmarkWorker = function () {
