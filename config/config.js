@@ -13,7 +13,8 @@ var config = {
         postmark: {
             apiToken: process.env.POSTMARK_API_TOKEN || '327af72a-ad49-40ab-8c59-0421bbc8e307',
             inboundAddress: process.env.POSTMARK_INBOUND_ADDRESS || 'fff5169bbe1fa1d5d9e9702c83084d99@inbound.postmarkapp.com',
-            senderEmail: process.env.POSTMARK_SENDER || 'gemeinde@agranovskiy.de'
+            senderEmail: process.env.POSTMARK_SENDER || 'gemeinde@agranovskiy.de',
+            defaultTemplateId:  process.env.POSTMARK_TEMPLATE || '1123041'
         },
         sms77: {
             endpoint: process.env.SMS77_ENDPOINT || 'https://gateway.sms77.de',

@@ -158,6 +158,7 @@ PostmanOffice.prototype.sendSMS = function (notification, callback) {
     });
 };
 
+
 /**
  * Send message to the worker and process response
  *
@@ -165,6 +166,49 @@ PostmanOffice.prototype.sendSMS = function (notification, callback) {
  * @param callback
  */
 PostmanOffice.prototype.sendEmail = function (notification, callback) {
+    console.info('Sending Email to ' + notification.recipient.name);
+
+    // Validate that we have all we need
+    if (!notification.recipient.email) {
+        return callback('No Email- No notification');
+    }
+    if (!notification.subject) {
+        return callback('No subject- No notification');
+    }
+    if (!notification.message) {
+        return callback('No message- No notification');
+    }
+
+    var msgObj = {
+        recipient: notification.recipient.name,
+        messageText: notification.message,
+        subject: notification.subject
+
+    };
+    PostmarkWorker.sendTemplatedMessage(notification.recipient.email,  msgObj, function (err, result) {
+        if (err) {
+            console.error(err);
+            notification.recipe('error' + err);
+            return callback(err);
+        }
+        console.info('Email Message was sent successfully: ', notification.recipient.name);
+        notification.recipe(result, function (err, recipedNotification) {
+            if (err) {
+                console.error(err);
+                return callback(err);
+            }
+            callback(null, recipedNotification);
+        });
+    });
+};
+
+/**
+ * Send message to the worker and process response
+ *
+ * @param notification
+ * @param callback
+ */
+PostmanOffice.prototype.sendSimpleEmail = function (notification, callback) {
     console.info('Sending Email to ' + notification.recipient.name);
 
     // Validate that we have all we need

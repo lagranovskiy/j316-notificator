@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var postmark = require("postmark");
+var async = require('async');
 var config = require('../../config/config');
 
 var PostmarkWorker = function () {
@@ -7,6 +8,48 @@ var PostmarkWorker = function () {
 
     return {
 
+
+        /**
+         * Sends a new templated message
+         *
+         * @param recipient email of recipient
+         * @param subject subject
+         * @param messageObject object with vars
+         * @param callback
+         * @return {*}
+         */
+        sendTemplatedMessage: function (recipient, messageObject, callback) {
+
+
+            // Validate that we have all we need
+            if (!recipient) {
+                return callback('No Recipients - No notification');
+            }
+
+            if (!messageObject) {
+                return callback('No message- No notification');
+            }
+
+
+            async.waterfall([function (asyncCallback) {
+                // See doku http://developer.postmarkapp.com/developer-api-templates.html#email-with-template
+                console.info('Sending email to ' + recipient);
+                client.sendEmailWithTemplate({
+                    From: config.notificationAPI.postmark.senderEmail,
+                    To: recipient,
+                    TemplateId: config.notificationAPI.postmark.defaultTemplateId*1,
+                    TemplateModel: messageObject
+                }, asyncCallback);
+
+            }], function (error, result) {
+                if (error) {
+                    console.error("Unable to send via postmark: " + error.message);
+                    return callback(error);
+                }
+                return callback(null, result);
+            });
+
+        },
 
         /**
          * Send email notification
